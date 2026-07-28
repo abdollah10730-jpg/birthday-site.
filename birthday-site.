@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Abdollah 🎉</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Poppins:wght@400;600;800&family=Cairo:wght@700&display=swap');
+
+        :root {
+            --pastel-sky: linear-gradient(180deg, #4aa3ff 0%, #7ec0ff 40%, #cbe3ff 100%);
+            --card-bg: #f5f9ff;
+            --blue-accent: #3b82f6;
+            --blue-dark: #1e3a8a;
+            --text-dark: #2c3e50;
+            --gold: #ffd700;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background: var(--pastel-sky);
+            color: var(--text-dark);
+            font-family: 'Fredoka', 'Poppins', 'Cairo', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+
+        /* --- Clouds Background Animation --- */
+        .clouds-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 100px;
+            animation: floatClouds 25s linear infinite;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+        }
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 50%;
+        }
+        .cloud.c1 { width: 150px; height: 50px; top: 15%; left: -160px; animation-duration: 35s; }
+        .cloud.c1::before { width: 70px; height: 70px; top: -35px; left: 20px; }
+        .cloud.c1::after { width: 50px; height: 50px; top: -20px; left: 80px; }
+
+        .cloud.c2 { width: 220px; height: 60px; top: 35%; left: -230px; animation-duration: 25s; animation-delay: 5s; }
+        .cloud.c2::before { width: 90px; height: 90px; top: -50px; left: 30px; }
+        .cloud.c2::after { width: 70px; height: 70px; top: -30px; left: 110px; }
+
+        .cloud.c3 { width: 120px; height: 40px; top: 65%; left: -130px; animation-duration: 42s; animation-delay: 2s; }
+        .cloud.c3::before { width: 50px; height: 50px; top: -25px; left: 15px; }
+        .cloud.c3::after { width: 40px; height: 40px; top: -15px; left: 55px; }
+
+        @keyframes floatClouds {
+            0% { transform: translateX(-10px); }
+            100% { transform: translateX(calc(100vw + 250px)); }
+        }
+
+        /* --- Canvas for Celebration Particles --- */
+        #effectsCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        #balloonContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* --- Screen Architecture --- */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            padding: 20px;
+            opacity: 0;
+            transform: scale(0.98);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .screen.active {
+            display: flex;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- Split Layout for Password Screen --- */
+        .layout-container {
+            display: flex;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 4px solid #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 15px 35px rgba(30, 58, 138, 0.15);
+            width: 100%;
+            max-width: 820px;
+            overflow: hidden;
+            min-height: 520px;
+        }
+
+        .visual-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+        }
+
+        .interface-side {
+            flex: 1.1;
+            background: var(--card-bg);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-left: 4px solid #ffffff;
+        }
+
+        /* --- Cute Boy Mascot Animation --- */
+        .mascot-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: floatMascot 3s infinite ease-in-out;
+        }
+
+        @keyframes floatMascot {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .chibi-bday-hat { transform-origin: 60px 25px; animation: hatBob 3s infinite ease-in-out; }
+        .chibi-hair { transform-origin: 60px 45px; animation: hairSway 4s infinite ease-in-out; }
+        .chibi-head { transform-origin: 60px 75px; animation: headNod 3s infinite ease-in-out; }
+        .chibi-arm-left { transform-origin: 42px 85px; animation: armWave 2s infinite ease-in-out; }
+        .chibi-arm-right { transform-origin: 78px 85px; animation: armWaveRight 2s infinite ease-in-out; }
+
+        @keyframes hatBob { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-3px) rotate(3deg); } }
+        @keyframes hairSway { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(2deg); } }
+        @keyframes headNod { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-2deg); } }
+        @keyframes armWave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-15deg); } }
+        @keyframes armWaveRight { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(15deg); } }
+
+        .mascot-cloud-floor {
+            width: 140px;
+            height: 35px;
+            background: #ffffff;
+            border-radius: 50px;
+            margin-top: -10px;
+            box-shadow: 0 8px 0px rgba(160, 195, 255, 0.4);
+            position: relative;
+        }
+        .mascot-cloud-floor::before {
+            content: ''; position: absolute; background: #fff; width: 60px; height: 60px; top: -30px; left: 20px; border-radius: 50%;
+        }
+        .mascot-cloud-floor::after {
+            content: ''; position: absolute; background: #fff; width: 50px; height: 50px; top: -20px; left: 70px; border-radius: 50%;
+        }
+
+        /* --- Keypad / Password UI --- */
+        .password-title {
+            font-size: 1.6rem;
+            color: var(--blue-dark);
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 0px #fff;
+        }
+
+        .slots-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .slot {
+            width: 42px;
+            height: 42px;
+            background: #fff;
+            border: 3px solid #c6ddff;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4rem;
+            color: var(--blue-accent);
+            transition: all 0.2s ease;
+        }
+        .slot.filled {
+            border-color: var(--blue-accent);
+            background: #edf4ff;
+        }
+
+        .keypad-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 220px;
+        }
+
+        .key-btn {
+            background: #ffffff;
+            border: 3px solid #c6ddff;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 0px #c6ddff;
+            transition: all 0.1s ease;
+            font-family: 'Fredoka', sans-serif;
+            margin: 0 auto;
+        }
+        .key-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0px #c6ddff;
+        }
+        .key-btn.special {
+            color: var(--blue-dark);
+            background: #edf4ff;
+        }
+
+        /* --- Screen 2: Dialogue Box Style --- */
+        .dialogue-box-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .speech-bubble {
+            background: #ffffff;
+            border: 4px solid var(--text-dark);
+            border-radius: 24px;
+            padding: 25px 30px;
+            position: relative;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-align: center;
+            width: 100%;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 0px rgba(74, 59, 82, 0.1);
+            animation: popBubble 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 24px 20px 0;
+            border-style: solid;
+            border-color: #ffffff transparent;
+            display: block;
+            width: 0;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 26px 22px 0;
+            border-style: solid;
+            border-color: var(--text-dark) transparent;
+            display: block;
+            width: 0;
+            z-index: -1;
+        }
+
+        @keyframes popBubble {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #64a5ff 0%, #1e3a8a 100%);
+            border: 4px solid #ffffff;
+            padding: 15px 50px;
+            font-size: 1.4rem;
+            color: white;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.25);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Fredoka', sans-serif;
+        }
+        .btn-next:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(30, 58, 138, 0.35);
+        }
+        .btn-next:active {
+            transform: translateY(1px);
+        }
+
+        /* --- Final Celebration Screen --- */
+        .celebration-wrapper {
+            text-align: center;
+            max-width: 700px;
+            z-index: 5;
+            background: rgba(255, 255, 255, 0.65);
+            padding: 40px;
+            border-radius: 32px;
+            border: 4px solid #fff;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+
+        .main-bday-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #e83e8c, #fd7e14, #ffc107, #20c997, #2563eb, #e83e8c);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: streamText 3s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes streamText {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .scrolling-letter {
+            font-size: 1.35rem;
+            font-weight: 600;
+            line-height: 1.8;
+            color: #2c3e50;
+            min-height: 120px;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn-action {
+            background: white;
+            border: 3px solid var(--blue-accent);
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            color: var(--blue-dark);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Fredoka', sans-serif;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .btn-action:hover {
+            background: var(--blue-accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* --- Pure CSS Balloons --- */
+        .pure-balloon {
+            position: absolute;
+            width: 70px;
+            height: 85px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            bottom: -120px;
+            box-shadow: inset -6px -10px 15px rgba(0,0,0,0.1), 0 10px 20px rgba(0,0,0,0.08);
+            animation: ascend 9s linear infinite;
+        }
+        .pure-balloon::before {
+            content: ""; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+            border-left: 5px solid transparent; border-right: 5px solid transparent;
+        }
+        .pure-balloon::after {
+            content: ""; position: absolute; bottom: -30px; left: 50%; width: 1.5px; height: 25px; background: rgba(0,0,0,0.15);
+        }
+        @keyframes ascend {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.9; }
+            100% { transform: translateY(-120vh) rotate(15deg); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .layout-container { flex-direction: column; width: 95%; min-height: auto; }
+            .interface-side { border-left: none; border-top: 4px solid #ffffff; padding: 25px 15px; }
+            .main-bday-title { font-size: 2.2rem; }
+            .speech-bubble { font-size: 1.3rem; }
+        }
+
+        .error-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Elements -->
+    <div class="clouds-bg">
+        <div class="cloud c1"></div>
+        <div class="cloud c2"></div>
+        <div class="cloud c3"></div>
+    </div>
+    <canvas id="effectsCanvas"></canvas>
+    <div id="balloonContainer"></div>
+
+    <!-- SVG CHARACTER MACRO (Boy, Fair Skin, Light Brown-Yellowish Hair + Birthday Hat) -->
+    <div style="display:none;">
+        <svg id="chibi-boy-svg" viewBox="0 0 120 155" width="120" height="155">
+            <ellipse cx="60" cy="145" rx="30" ry="6" fill="rgba(0,0,0,0.08)"/>
+            <rect x="44" y="120" width="12" height="20" rx="4" fill="#5e6a7e"/>
+            <rect x="64" y="120" width="12" height="20" rx="4" fill="#5e6a7e"/>
+            <rect x="40" y="137" width="18" height="10" rx="5" fill="#ffffff" stroke="#ccc" stroke-width="1"/>
+            <rect x="62" y="137" width="18" height="10" rx="5" fill="#ffffff" stroke="#ccc" stroke-width="1"/>
+            <rect x="40" y="85" width="40" height="40" rx="10" fill="#2d3b56"/>
+            <rect x="50" y="85" width="20" height="40" fill="#ffffff"/>
+            <rect x="28" y="87" width="12" height="30" rx="6" fill="#2d3b56" class="chibi-arm-left"/>
+            <rect x="80" y="87" width="12" height="30" rx="6" fill="#2d3b56" class="chibi-arm-right"/>
+            <g class="chibi-head">
+                <circle cx="22" cy="60" r="7" fill="#fce2d6"/>
+                <circle cx="98" cy="60" r="7" fill="#fce2d6"/>
+                <rect x="25" y="35" width="70" height="50" rx="20" fill="#fce2d6"/>
+                <circle cx="38" cy="67" r="6" fill="#ff94b8" opacity="0.6"/>
+                <circle cx="82" cy="67" r="6" fill="#ff94b8" opacity="0.6"/>
+                <circle cx="45" cy="59" r="5.5" fill="#333"/>
+                <circle cx="75" cy="59" r="5.5" fill="#333"/>
+                <circle cx="43" cy="57" r="2" fill="#fff"/>
+                <circle cx="73" cy="57" r="2" fill="#fff"/>
+                <path d="M54,69 Q60,75 66,69" fill="none" stroke="#333" stroke-width="3" stroke-linecap="round"/>
+            </g>
+            <g class="chibi-hair">
+                <path d="M22,47 C20,20 40,13 60,17 C80,13 100,20 98,47 C104,50 100,33 92,29 C85,20 75,19 60,23 C45,19 35,20 28,29 C20,33 16,50 22,47 Z" fill="#cfab6a"/>
+                <path d="M25,41 Q40,37 45,49 Q52,35 60,45 Q68,35 75,49 Q85,37 95,41 L95,31 L25,31 Z" fill="#cfab6a"/>
+            </g>
+            <g class="chibi-bday-hat">
+                <path d="M60,2 L42,32 L78,32 Z" fill="#ff4757"/>
+                <path d="M51,13 L45,23 L50,26 L56,15 Z" fill="#ffa502"/>
+                <path d="M63,7 L55,20 L60,23 L68,10 Z" fill="#2ed573"/>
+                <path d="M69,17 L62,29 L67,31 L74,20 Z" fill="#1e90ff"/>
+                <ellipse cx="60" cy="32" rx="19" ry="3.5" fill="#ffffff"/>
+                <circle cx="60" cy="2" r="4.5" fill="#ffd700"/>
+            </g>
+        </svg>
+    </div>
+
+    <!-- 1. SCREEN: LOCK / PASSWORD -->
+    <div id="screen-lock" class="screen active">
+        <div class="layout-container" id="lockCard">
+            <div class="visual-side">
+                <div class="mascot-wrapper">
+                    <div id="mascot-placeholder-1"></div>
+                    <div class="mascot-cloud-floor"></div>
+                </div>
+            </div>
+            <div class="interface-side">
+                <h2 class="password-title">Guess the password</h2>
+                <div class="slots-container">
+                    <div class="slot" id="slot-0"></div>
+                    <div class="slot" id="slot-1"></div>
+                    <div class="slot" id="slot-2"></div>
+                </div>
+                <!-- Complete Keypad (1 to 9, 0, and clear) -->
+                <div class="keypad-grid">
+                    <button class="key-btn" onclick="pressKey('1')">1</button>
+                    <button class="key-btn" onclick="pressKey('2')">2</button>
+                    <button class="key-btn" onclick="pressKey('3')">3</button>
+                    <button class="key-btn" onclick="pressKey('4')">4</button>
+                    <button class="key-btn" onclick="pressKey('5')">5</button>
+                    <button class="key-btn" onclick="pressKey('6')">6</button>
+                    <button class="key-btn" onclick="pressKey('7')">7</button>
+                    <button class="key-btn" onclick="pressKey('8')">8</button>
+                    <button class="key-btn" onclick="pressKey('9')">9</button>
+                    <button class="key-btn special" onclick="clearKeys()">C</button>
+                    <button class="key-btn" onclick="pressKey('0')">0</button>
+                    <button class="key-btn special" onclick="clearKeys()">#</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. SCREEN: DIALOGUE (TODAY IS MY BIRTHDAY) -->
+    <div id="screen-dialogue" class="screen">
+        <div class="dialogue-box-container">
+            <div class="speech-bubble">
+                Today is my birthday!!!! 🎂✨
+            </div>
+            <div class="mascot-wrapper" style="margin-bottom: 30px;">
+                <div id="mascot-placeholder-2"></div>
+                <div class="mascot-cloud-floor"></div>
+            </div>
+            <button class="btn-next" onclick="navigateTo('screen-celebration')">Next ➔</button>
+        </div>
+    </div>
+
+    <!-- 3. SCREEN: FINAL CELEBRATION -->
+    <div id="screen-celebration" class="screen">
+        <div class="celebration-wrapper">
+            <h1 class="main-bday-title">🎉 HAPPY BIRTHDAY ABDOLLAH 🎉</h1>
+            <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 15px;">
+                <div class="mascot-wrapper" style="transform: scale(0.85); margin: -10px 0;">
+                    <div id="mascot-placeholder-3"></div>
+                </div>
+            </div>
+            <div class="scrolling-letter" id="typedLetter"></div>
+            <div class="controls-row">
+                <button class="btn-action" onclick="triggerMassiveExplosions()">🔄 Blast Effects</button>
+                <button class="btn-action" id="audioToggleBtn" onclick="toggleAudioStream()">🎵 Play Music</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bdayAudio" loop preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/123/123-200.wav" type="audio/wav">
+    </audio>
+
+    <script>
+        const originalSvgHtml = document.getElementById('chibi-boy-svg').outerHTML;
+        document.getElementById('mascot-placeholder-1').innerHTML = originalSvgHtml;
+        document.getElementById('mascot-placeholder-2').innerHTML = originalSvgHtml;
+        document.getElementById('mascot-placeholder-3').innerHTML = originalSvgHtml;
+
+        function navigateTo(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            setTimeout(() => {
+                const target = document.getElementById(screenId);
+                target.classList.add('active');
+                if(screenId === 'screen-celebration') {
+                    startCelebrationEngine();
+                }
+            }, 300);
+        }
+
+        let currentPin = "";
+        const targetPin = "730";
+
+        function pressKey(number) {
+            if (currentPin.length < 3 && !isNaN(number)) {
+                currentPin += number;
+                updatePinSlots();
+                if (currentPin.length === 3) {
+                    setTimeout(verifyPin, 250);
+                }
+            }
+        }
+
+        function clearKeys() {
+            currentPin = "";
+            updatePinSlots();
+        }
+
+        function updatePinSlots() {
+            for(let i=0; i<3; i++) {
+                const slot = document.getElementById(`slot-${i}`);
+                if(i < currentPin.length) {
+                    slot.innerText = "⭐";
+                    slot.classList.add('filled');
+                } else {
+                    slot.innerText = "";
+                    slot.classList.remove('filled');
+                }
+            }
+        }
+
+        function verifyPin() {
+            if (currentPin === targetPin) {
+                navigateTo('screen-dialogue');
+            } else {
+                const card = document.getElementById('lockCard');
+                card.classList.add('error-shake');
+                card.addEventListener('animationend', () => card.classList.remove('error-shake'), {once: true});
+                clearKeys();
+            }
+        }
+
+        const canvas = document.getElementById('effectsCanvas');
+        const ctx = canvas.getContext('2d');
+        let confettiArray = [];
+        let fireworkSparkArray = [];
+        let systemActive = false;
+
+        function resizeCanvasEngine() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvasEngine);
+        resizeCanvasEngine();
+
+        class ConfettiPiece {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * -60 - 20;
+                this.size = 5 + Math.random() * 8;
+                this.color = `hsl(${Math.random() * 360}, 100%, 65%)`;
+                this.fallSpeed = 2 + Math.random() * 3.5;
+                this.driftSpeed = -1 + Math.random() * 2;
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = -3 + Math.random() * 6;
+            }
+            update() {
+                this.y += this.fallSpeed;
+                this.x += this.driftSpeed;
+                this.rotation += this.rotSpeed;
+                if(this.y > canvas.height) {
+                    this.y = -20;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        class FireworkBurstSpark {
+            constructor(x, y, color) {
+                this.x = x; this.y = y; this.color = color;
+                this.angle = Math.random() * Math.PI * 2;
+                this.speed = 1 + Math.random() * 5;
+                this.opacity = 1;
+                this.decay = 0.012 + Math.random() * 0.018;
+                this.gravity = 0.08;
+            }
+            update() {
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed + this.gravity;
+                this.opacity -= this.decay;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function spawnFirework() {
+            if(!systemActive) return;
+            const x = 80 + Math.random() * (canvas.width - 160);
+            const y = 80 + Math.random() * (canvas.height / 2);
+            const palette = ['#ff7bb0', '#ffc107', '#20c997', '#00f3ff', '#ff3366', '#ffff00'];
+            const color = palette[Math.floor(Math.random() * palette.length)];
+            for(let i=0; i<50; i++) {
+                fireworkSparkArray.push(new FireworkBurstSpark(x, y, color));
+            }
+        }
+
+        const ballContainer = document.getElementById('balloonContainer');
+        function spawnBalloon() {
+            if(!systemActive) return;
+            const b = document.createElement('div');
+            b.classList.add('pure-balloon');
+            const colorGradients = [
+                'linear-gradient(135deg, #ff94b8 0%, #d6417a 100%)',
+                'linear-gradient(135deg, #ffdf65 0%, #e0aa00 100%)',
+                'linear-gradient(135deg, #7beaff 0%, #1094ab 100%)',
+                'linear-gradient(135deg, #b19ffb 0%, #6849ed 100%)'
+            ];
+            b.style.background = colorGradients[Math.floor(Math.random() * colorGradients.length)];
+            b.style.left = Math.random() * 92 + 'vw';
+            const scale = 0.8 + Math.random() * 0.5;
+            b.style.transform = `scale(${scale})`;
+            b.style.animationDuration = (6 + Math.random() * 5) + 's';
+            ballContainer.appendChild(b);
+            b.addEventListener('animationend', () => b.remove());
+        }
+
+        function engineRenderLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettiArray.forEach(p => { p.update(); p.draw(); });
+            fireworkSparkArray.forEach((f, idx) => {
+                f.update();
+                if(f.opacity <= 0) fireworkSparkArray.splice(idx, 1);
+                else f.draw();
+            });
+            requestAnimationFrame(engineRenderLoop);
+        }
+
+        function startCelebrationEngine() {
+            systemActive = true;
+            confettiArray = [];
+            for(let i=0; i<90; i++) confettiArray.push(new ConfettiPiece());
+            engineRenderLoop();
+            setInterval(spawnFirework, 750);
+            setInterval(spawnBalloon, 900);
+            triggerMassiveExplosions();
+            typeWriterAnimation();
+        }
+
+        function typeWriterAnimation() {
+            const container = document.getElementById('typedLetter');
+            const text = "HAPPY BIRTHDAY TO ME! 🎉 Wishing myself a wonderful 16th birthday! May this year bring me endless joy, amazing successes, and unforgettable moments. Cheers to turning 16 and stepping into an incredible new chapter of life! 🌟✨";
+            container.innerText = "";
+            let idx = 0;
+            function type() {
+                if(idx < text.length) {
+                    container.innerHTML += text.charAt(idx);
+                    idx++;
+                    setTimeout(type, 50);
+                }
+            }
+            setTimeout(type, 300);
+        }
+
+        function triggerMassiveExplosions() {
+            for(let c=0; c<3; c++) {
+                setTimeout(() => {
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * (canvas.height / 2);
+                    const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+                    for(let i=0; i<60; i++) fireworkSparkArray.push(new FireworkBurstSpark(x, y, color));
+                }, c * 200);
+            }
+        }
+
+        let playing = false;
+        const audio = document.getElementById('bdayAudio');
+        const btnText = document.getElementById('audioToggleBtn');
+
+        function toggleAudioStream() {
+            if(!playing) {
+                audio.play().then(() => {
+                    playing = true;
+                    btnText.innerText = "⏸️ Pause Music";
+                }).catch(() => console.log("Interaction restriction applied"));
+            } else {
+                audio.pause();
+                playing = false;
+                btnText.innerText = "🎵 Play Music";
+            }
+        }
+    </script>
+</body>
+</html>
